@@ -188,7 +188,7 @@ def timecodeBreak(file, m):
     new.write(byteData)
 
 def edit(file, groupData, par, workingDir = "", resourceDir = "..", toVideo = False, toGif = False, disallowTimecodeBreak = False, HIDE_FFMPEG_OUT = True, HIDE_ALL_FFMPEG = True, SHOW_TIMER = False, fixPrint = fixPrint):
-    videoFX = ['playreverse', 'transpose', 'hmirror', 'vmirror', 'lag', 'rlag', 'shake', 'fisheye','defisheye', 'zoom', 'bottomtext', 'toptext', 'normalcaption', 'topcap','bottomcap', 'topcaption', 'bottomcaption', 'hypercam', 'bandicam', 'deepfry', 'contrast', 'hue', 'hcycle', 'speed', 'vreverse', 'areverse', 'reverse', 'wscale', 'hscale', 'sharpen', 'watermark', 'framerate', 'invert', 'wave', 'waveamount', 'wavestrength', 'acid', 'hcrop', 'vcrop', 'hflip', 'vflip', 'swapuv', 'invertred', 'huehsvinvert', 'huehsv']
+    videoFX = ['playreverse', 'transpose', 'hmirror', 'vmirror', 'lag', 'rlag', 'shake', 'fisheye','defisheye', 'zoom', 'bottomtext', 'toptext', 'normalcaption', 'topcap','bottomcap', 'topcaption', 'bottomcaption', 'hypercam', 'bandicam', 'deepfry', 'contrast', 'hue', 'hcycle', 'speed', 'vreverse', 'areverse', 'reverse', 'wscale', 'hscale', 'sharpen', 'watermark', 'framerate', 'invert', 'wave', 'waveamount', 'wavestrength', 'acid', 'hcrop', 'vcrop', 'hflip', 'vflip', 'swapuv', 'invertred', 'huehsvinvert', 'huehsv','invertgreen', 'invertblue']
     audioFX = ['pitch', 'reverb', 'earrape', 'bass', 'oops', 'threshold', 'crush', 'wobble', 'music', 'sfx', 'volume', 'autotune']
 
     d = {i: None for i in par}
@@ -579,6 +579,14 @@ def edit(file, groupData, par, workingDir = "", resourceDir = "..", toVideo = Fa
         def invertred():
             nonlocal video, audio
             video = video.filter("lutrgb", r="negval")
+
+        def invertgreen():
+            nonlocal video, audio
+            video = video.filter("lutrgb", g="negval")   
+
+        def invertblue():
+            nonlocal video, audio
+            video = video.filter("lutrgb", b="negval")       
         
         def swapuv():
             nonlocal video, audio
@@ -646,7 +654,8 @@ def edit(file, groupData, par, workingDir = "", resourceDir = "..", toVideo = Fa
 
         def huehsvinvert():
             nonlocal video, audio
-            video = video.filter("vibrance",intensity=-1.8,alternate=1,rlum=0.3,glum=0.45,blum=0.25)    
+            video = video.filter("vibrance",intensity=-1.8,alternate=1,rlum=0.3,glum=0.45,blum=0.25)
+
         def huehsv():
             nonlocal video, audio
             video = video.filter("huesaturation",(d['huehsv']),0.5,0,-100,100)        
@@ -730,6 +739,8 @@ def edit(file, groupData, par, workingDir = "", resourceDir = "..", toVideo = Fa
             'swapuv': swapuv,
             'transpose': transpose,
             'invertred': invertred,
+            'invertgreen': invertgreen,
+            'invertblue': invertblue,
             'huehsvinvert': huehsvinvert,
             'huehsv': huehsv,
         }
@@ -1063,7 +1074,9 @@ def videoEdit(originalFile, args, workingDir = "./", resourceDir = path.dirname(
         "framerate"     :[V, "fps" , int(r(5, 20)) ],
         "invert"        :[V, "inv" , 1 ],
         "huehsvinvert"  :[V, "hue180" , 1 ],
-        "invertred"     :[V, "invred" , 1 ],
+        "invertred"     :[V, "invr" , 1 ],
+        "invertgreen"   :[V, "invg" , 1 ],
+        "invertblue"    :[V, "invb" , 1 ],
         "swapuv"        :[V, "uv" , 1 ],
         "wave"          :[V, "wav" , r(-100, 100) ],
         "waveamount"    :[V, "wava", r(0, 100) ],
