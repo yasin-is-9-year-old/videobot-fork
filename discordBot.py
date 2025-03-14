@@ -277,7 +277,7 @@ async def prepare_concat(msg, args):
     try:
         concat_count = min(max_concat_count, max(2, (int(concat_count) if len(concat_count.strip()) else len(msg.attachments))))
     except Exception as err:
-        await msg.reply(f'No video amount given, interpreting "{concat_count}" as specifier...')
+        await msg.reply(f'give me videos pls "{concat_count}"')
         name_spec.insert(0, concat_count)
         concat_count = min(max_concat_count, max(2, len(name_spec)))
     
@@ -364,8 +364,8 @@ async def parse_command(message):
         final_command_name = "help"
     elif cmd == "klaskysource":
         final_command_name = "klaskysource"
-    elif (ev1 := (cmd in ["beb", ""])) or has_meta_prefix: # this part is janky
-        final_command_name = "beb"
+    elif (ev1 := (cmd in ["uvb", ""])) or has_meta_prefix: # this part is janky
+        final_command_name = "uvb"
         if not ev1 or cmd == "":
             args = f"{spl[0].strip()} {args}" #
 
@@ -457,7 +457,7 @@ async def on_ready():
     await bot.change_presence(status=discord.Status.online)  # Can be online, idle, dnd (do not disturb), or invisible
     
     botReady = True
-    info("BeeboVideo is on")
+    info("UltraVideoBot is on")
 
 
 @bot.event
